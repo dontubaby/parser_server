@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package server;
+
+option go_package = "server/pb";
+
+import "google/protobuf/empty.proto";
+
+// Сообщение для внутреннего словаря map[int]string
+message TableRows {
+    map<int32, string> rows = 1;
+}
+
+// Сообщение для внешнего словаря map[string]map[int]string
+message Table {
+    map<string, TableRows> table = 1;
+}
+
+// Определение сервиса
+service ParseService {
+    rpc GetTable(google.protobuf.Empty) returns (Table);
+}
+
+//команда для генерации
+//protoc --go_out=. --go-grpc_out=. your_file.proto
