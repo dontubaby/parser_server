@@ -6,6 +6,8 @@ option go_package = "server/pb";
 
 import "google/protobuf/empty.proto";
 
+message Empty {}
+
 // Сообщение для внутреннего словаря map[int]string
 message TableRows {
     map<int32, string> rows = 1;
@@ -22,4 +24,4 @@ service ParseService {
 }
 
 //команда для генерации
-//protoc --go_out=. --go-grpc_out=. your_file.proto
+//protoc --go_out=. --go-grpc_out=. parser.proto

@@ -4,7 +4,10 @@ import (
 	"log"
 )
 
-// структура таблицы ключ - название колонки значение -мапа ключ - номер строки значение ячейки - строка
+var cfg = Config{
+	ServerAddress: "localhost:8080",
+	FileName:      "cyconfig.xlsx",
+}
 
 func main() {
 	// Запуск приложения
