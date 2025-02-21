@@ -2,30 +2,28 @@ package server
 
 import (
 	"context"
+	"google.golang.org/protobuf/types/known/emptypb"
+
 	"github.com/tealeg/xlsx"
 	"log"
 
 	"parser_server/internal/config"
 	"parser_server/internal/parser"
-	pb "parser_server/server/pb"
-)
-
-const (
-	interval = 10
+	"parser_server/server/pb"
 )
 
 type Server struct {
 	pb.UnimplementedParseServiceServer
 	parser parser.TableProcessor
+	cfg    config.Config
 }
 
-func (s *Server) GetTable(ctx context.Context) (*pb.Table, error) {
-	cfg, err := config.ParseConfigFile("config.json")
-	if err != nil {
-		log.Fatalf("open file error: %v", err)
-	}
+func NewServer(cfg config.Config) *Server {
+	return &Server{cfg: cfg}
+}
 
-	xlFile, err := xlsx.OpenFile(cfg.FileName)
+func (s *Server) GetTable(ctx context.Context, req *emptypb.Empty) (*pb.Table, error) {
+	xlFile, err := xlsx.OpenFile("./" + s.cfg.FileName)
 	if err != nil {
 		log.Fatalf("open file error: %v", err)
 	}

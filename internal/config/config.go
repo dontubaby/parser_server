@@ -19,9 +19,15 @@ func ParseConfigFile(filename string) (Config, error) {
 		log.Printf("Open file error - %v", err)
 		return Config{}, err
 	}
-	defer configFile.Close()
+	//Запускаем закрытие файла из замыкания, чтобы была возможность обработать ошибку закрытия файла
+	defer func() {
+		err = configFile.Close()
+		if err != nil {
+			log.Printf("Close file error - %v", err)
+		}
+	}() // _ = configFile.Close()
 
-	data, err = ioutil.ReadFile("./config.json")
+	data, err = ioutil.ReadFile(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
