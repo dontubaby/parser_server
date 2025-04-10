@@ -1,4 +1,6 @@
 {
   "server_address": "localhost:50051",
-  "file_name": "test.xlsx"
+  "app_config_file_name": "test.json",
+  "autobattler_config_file_name": "test1.xlsx",
+  "dialog_config_file_name": "test2.xlsx"
 }

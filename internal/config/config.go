@@ -8,8 +8,10 @@ import (
 )
 
 type Config struct {
-	ServerAddress string `json:"server_address"`
-	FileName      string `json:"file_name"`
+	ServerAddress             string `json:"server_address"`               //адрес сервера сервиса парсинга
+	FileName                  string `json:"app_config_file_name"`         //имя конфигурационного файла сервиса парсинга
+	AutoBattlerConfigFileName string `json:"autobattler_config_file_name"` //имя конфигурационного файла автобатлера
+	DialogConfigFileName      string `json:"dialog_config_file_name"`      //имя конфигурационного файла для диалоговой системы
 }
 
 func ParseConfigFile(filename string) (Config, error) {

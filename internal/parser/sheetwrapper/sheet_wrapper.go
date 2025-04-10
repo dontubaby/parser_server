@@ -1,4 +1,4 @@
-package parser
+package sheetwrapper
 
 import "github.com/tealeg/xlsx"
 
@@ -10,6 +10,10 @@ type SheetWrapper interface {
 // DefaultSheetWrapper это реализация интерфейса SheetWrapper
 type DefaultSheetWrapper struct {
 	Sheet *xlsx.Sheet
+}
+
+func NewDefaultSheetWrapper(sheet *xlsx.Sheet) *DefaultSheetWrapper {
+	return &DefaultSheetWrapper{Sheet: sheet}
 }
 
 // Rows возвращает строки из xlsx.Sheet

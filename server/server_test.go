@@ -7,7 +7,7 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"log"
 	"parser_server/internal/config"
-	"parser_server/internal/parser"
+	"parser_server/internal/parser/mapparser"
 	"parser_server/server/pb"
 	"reflect"
 	"testing"
@@ -15,10 +15,10 @@ import (
 
 func TestNewServer(t *testing.T) {
 	type args struct {
-		parser parser.ColumnExtractor
+		parser map_parser.ColumnExtractor
 		cfg    config.Config
 	}
-	extractor := &parser.DefaultColumnExtractor{}
+	extractor := &map_parser.DefaultColumnExtractor{}
 
 	tests := []struct {
 		name string
@@ -35,7 +35,7 @@ func TestNewServer(t *testing.T) {
 				},
 			},
 			want: &Server{
-				parser: parser.NewTableProcessor(extractor),
+				parser: map_parser.NewTableProcessor(extractor),
 				cfg: config.Config{
 					ServerAddress: "localhost:50051",
 					FileName:      "test.xlsx",

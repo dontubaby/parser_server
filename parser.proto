@@ -8,19 +8,44 @@ import "google/protobuf/empty.proto";
 
 message Empty {}
 
-// Сообщение для внутреннего словаря map[int]string
+// Сообщение для внутреннего словаря map[int]string для парсера автобатлера
 message TableRows {
     map<int32, string> rows = 1;
 }
 
-// Сообщение для внешнего словаря map[string]map[int]string
-message Table {
+// Сообщение для внешнего словаря map[string]map[int]string для парсера автобатлера
+message     AutobattlerTable {
     map<string, TableRows> table = 1;
 }
 
-// Определение сервиса
-service ParseService {
-    rpc GetTable(google.protobuf.Empty) returns (Table);
+// Определение сервиса парсинга авттобаллера
+service ParseAutoBattlerService {
+    rpc GetAutobattlerTable(google.protobuf.Empty) returns (AutobattlerTable);
+}
+
+//составной тип копирующий go-структуру dialog.Task
+message Task {
+    string profession = 1;
+    uint64 taskID = 2;
+    uint64 taskGroupID = 3;
+    uint32 groupWeight = 4;
+    uint32 position = 5;
+    uint32 professionXP = 6;
+    uint32 tmpXP = 7;
+    uint32 playerXp = 8;
+    uint32 activationXP = 9;
+    string dialogID = 10;
+    string activationAct = 11;
+    uint32 nextActXP = 12;
+    uint32 nextChapterXP = 13;
+}
+//массив заданий для возврата grpc методом
+message TaskList {
+    repeated Task table = 1;
+}
+
+service ParseDialogService {
+    rpc GetDialogTable(google.protobuf.Empty) returns (TaskList);
 }
 
 //команда для генерации

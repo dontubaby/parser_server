@@ -2,7 +2,7 @@
 // Source: sheet_wrapper.go
 
 // Package parser is a generated GoMock package.
-package parser
+package sheetwrapper
 
 import (
 	reflect "reflect"

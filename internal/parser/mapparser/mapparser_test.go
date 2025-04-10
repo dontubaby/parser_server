@@ -1,10 +1,10 @@
-package parser
+package mapparser
 
 import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/tealeg/xlsx"
-	parser "parser_server/internal/parser/map_parser"
+	sw "parser_server/internal/parser/sheetwrapper"
 	"reflect"
 	"testing"
 )
@@ -16,7 +16,7 @@ func TestDefaultColumnExtractor_GetHeaders_Integration(t *testing.T) {
 		t.Fatalf("Failed to open file: %v", err)
 	}
 	// Получение листа
-	sheet := parser.DefaultSheetWrapper{
+	sheet := sw.DefaultSheetWrapper{
 		Sheet: file.Sheets[0],
 	}
 
@@ -26,7 +26,11 @@ func TestDefaultColumnExtractor_GetHeaders_Integration(t *testing.T) {
 	}
 	result := dce.GetHeaders()
 
-	expected := []string{"Some header1", "Some header2", "Some header3"}
+	expected := map[string]int{
+		"Some header1": 0,
+		"Some header2": 1,
+		"Some header3": 2,
+	}
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("ExtractColumn(0) = %v, expected %v", result, expected)
 	}
@@ -40,7 +44,7 @@ func TestDefaultColumnExtractor_ExtractColumn_Integration(t *testing.T) {
 	}
 
 	// Получение листа
-	sheet := parser2.DefaultSheetWrapper{
+	sheet := sw.DefaultSheetWrapper{
 		Sheet: file.Sheets[0],
 	}
 
@@ -69,7 +73,7 @@ func TestTableProcessor_ExtractTable(t *testing.T) {
 	}
 
 	// Получение листа
-	sheet := parser2.DefaultSheetWrapper{
+	sheet := sw.DefaultSheetWrapper{
 		Sheet: file.Sheets[0],
 	}
 
@@ -98,7 +102,7 @@ func TestDefaultColumnExtractor_ExtractColumn(t *testing.T) {
 	defer ctrl.Finish()
 
 	// Создаем мок для xlsx.Sheet
-	mockSheet := NewMockSheetWrapper(ctrl)
+	mockSheet := sw.NewMockSheetWrapper(ctrl)
 
 	// Настраиваем ожидания для мока
 	rows := []*xlsx.Row{
@@ -129,7 +133,7 @@ func TestDefaultColumnExtractor_GetHeaders(t *testing.T) {
 	ctlr := gomock.NewController(t)
 	defer ctlr.Finish()
 
-	mockSheet := NewMockSheetWrapper(ctlr)
+	mockSheet := sw.NewMockSheetWrapper(ctlr)
 
 	rows := []*xlsx.Row{
 		{Cells: []*xlsx.Cell{{Value: "Header1"}, {Value: "Header2"}, {Value: "Header3"}}},
@@ -144,6 +148,10 @@ func TestDefaultColumnExtractor_GetHeaders(t *testing.T) {
 	headers := extractor.GetHeaders()
 
 	// Проверяем результат
-	expected := []string{"Header1", "Header2", "Header3"}
+	expected := map[string]int{
+		"Header1": 0,
+		"Header2": 1,
+		"Header3": 2,
+	}
 	assert.Equal(t, expected, headers)
 }

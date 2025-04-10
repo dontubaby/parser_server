@@ -13,8 +13,10 @@ func TestParseConfigFile_Integration(t *testing.T) {
 	}
 
 	expected := Config{
-		ServerAddress: "localhost:50051",
-		FileName:      "test.xlsx",
+		ServerAddress:             "localhost:50051",
+		FileName:                  "test.json",
+		AutoBattlerConfigFileName: "test1.xlsx",
+		DialogConfigFileName:      "test2.xlsx",
 	}
 
 	if !reflect.DeepEqual(result, expected) {
