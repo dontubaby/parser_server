@@ -8,14 +8,15 @@ import (
 )
 
 func main() {
-	cfg, err := config.ParseConfigFile("./config.json")
+	// Загрузка конфигурации
+	cfg, err := config.ParseConfigFile("./config.json") //TODO: переделать на переменную окружения
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Config data: ", cfg.FileName, cfg.ServerAddress)
+	fmt.Printf("Server start working: %v\n", cfg.ServerAddress)
+
 	// Запуск приложения
 	if err := app.Run(cfg); err != nil {
 		log.Fatalf("Ошибка при запуске приложения: %v", err)
 	}
-
 }

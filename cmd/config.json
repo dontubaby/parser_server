@@ -1,4 +1,6 @@
 {
   "server_address": "localhost:50051",
-  "file_name": "cyconfig.xlsx"
+  "app_config_file_name": "config.json",
+  "autobattler_config_file_name": "cyconfig.xlsx",
+  "dialog_config_file_name": "UsCODE GD.xlsx"
 }

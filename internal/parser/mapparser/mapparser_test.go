@@ -4,6 +4,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/tealeg/xlsx"
+	parser "parser_server/internal/parser/map_parser"
 	"reflect"
 	"testing"
 )
@@ -15,7 +16,7 @@ func TestDefaultColumnExtractor_GetHeaders_Integration(t *testing.T) {
 		t.Fatalf("Failed to open file: %v", err)
 	}
 	// Получение листа
-	sheet := DefaultSheetWrapper{
+	sheet := parser.DefaultSheetWrapper{
 		Sheet: file.Sheets[0],
 	}
 
@@ -39,7 +40,7 @@ func TestDefaultColumnExtractor_ExtractColumn_Integration(t *testing.T) {
 	}
 
 	// Получение листа
-	sheet := DefaultSheetWrapper{
+	sheet := parser2.DefaultSheetWrapper{
 		Sheet: file.Sheets[0],
 	}
 
@@ -68,7 +69,7 @@ func TestTableProcessor_ExtractTable(t *testing.T) {
 	}
 
 	// Получение листа
-	sheet := DefaultSheetWrapper{
+	sheet := parser2.DefaultSheetWrapper{
 		Sheet: file.Sheets[0],
 	}
 

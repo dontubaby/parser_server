@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 	"parser_server/internal/config"
-	"parser_server/internal/parser"
+	"parser_server/internal/parser/mapparser"
 	"parser_server/server"
 
 	"google.golang.org/grpc"
@@ -21,11 +21,16 @@ func Run(cfg config.Config) error {
 
 	// Создаем gRPC сервер
 	s := grpc.NewServer()
-	// Регистрируем сервис парсинга в gRPC
-	pb.RegisterParseServiceServer(s, server.NewServer(cfg, &parser.DefaultColumnExtractor{}))
+	// Регистрируем сервис парсинга конфигурационного файла автобатлера в gRPC
+	pb.RegisterParseAutoBattlerServiceServer(s, server.NewServer(cfg, &mapparser.DefaultColumnExtractor{}))
+
+	//Регистрируем сервис парсинга конфигурационного файла диалоговой системы в gRPC
+	pb.RegisterParseDialogServiceServer(s, server.NewServer(cfg, &mapparser.DefaultColumnExtractor{}))
+
 	log.Printf("server listening at %v", listener.Addr())
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+
 	return nil
 }
